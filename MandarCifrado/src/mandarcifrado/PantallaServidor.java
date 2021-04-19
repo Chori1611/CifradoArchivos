@@ -20,14 +20,18 @@ import java.util.logging.Logger;
 import javax.crypto.Cipher;
 import javax.crypto.CipherInputStream;
 import javax.crypto.NoSuchPaddingException;
+import javax.swing.filechooser.FileSystemView;
 
 /**
  *
- * @author gabriel
+ * @author chori
  */
 public class PantallaServidor extends javax.swing.JFrame {
     private File archivEn;
     private ServerSocket serverSocket=null;
+    
+    FileSystemView filesys = FileSystemView.getFileSystemView();
+    
     /**
      * Creates new form PantallaServidor
      */
@@ -127,10 +131,10 @@ public class PantallaServidor extends javax.swing.JFrame {
            // String termina = parts[1];
            // System.out.print(archivo.toString());
             
+            String desktopPath = filesys.getHomeDirectory() + "";
+            FileOutputStream fileout = new FileOutputStream(desktopPath+"/FicheroDescifrado.pdf");
             
-            FileOutputStream fileout = new FileOutputStream("FicheroDescifrado.pdf");
-            
-            CipherInputStream in = new CipherInputStream(new FileInputStream("FicheroReceptorEncriptado.pdf"), c);
+            CipherInputStream in = new CipherInputStream(new FileInputStream(desktopPath+"/FicheroReceptorEncriptado.pdf"), c);
             
             int tamBloque = c.getBlockSize();
             byte[] bytes = new byte[tamBloque];

@@ -13,16 +13,19 @@ import java.net.Socket;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import javax.swing.filechooser.FileSystemView;
+
 
 
 /**
  *
- * @author gabriel
+ * @author chori
  */
 public class HiloServidor  implements Runnable {
     private PantallaServidor servidor = null;
     private final ServerSocket servidorSocket;
-    private File archivo;
+    FileSystemView filesys = FileSystemView.getFileSystemView();
+    //private File archivo;
     
     public HiloServidor(ServerSocket socket,PantallaServidor gui){
         this.servidor=gui;
@@ -33,13 +36,8 @@ public class HiloServidor  implements Runnable {
         try {
             Socket socket = servidorSocket.accept();
             ObjectInputStream os = new ObjectInputStream(socket.getInputStream());
-            String termi = null;
-            String termina = null;
-            termi= os.toString();
-            if(termi.contains(".")) {
-            	termina = os.toString();
-            }
-            FileOutputStream fos = new FileOutputStream("FicheroReceptorEncriptado"+termina);
+            String desktopPath = filesys.getHomeDirectory() + "";
+            FileOutputStream fos = new FileOutputStream(desktopPath+"/FicheroReceptorEncriptado.pdf");
             byte contenido[] = new byte[1024*4];
             int i = os.read(contenido);
             while(i!=-1){
